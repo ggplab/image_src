@@ -6,14 +6,6 @@
 
 ---
 
-## 치트시트 / Cheatsheet
-
-| 자료 / Resource | 설명 / Description | 링크 / Link |
-|------|------|------|
-| 데이터 파이프라인 치트시트 | 핵심 노드 한눈에 정리 (한/영 PDF, PNG) | [바로가기](./03-cheatsheet-for-datapipeline/) |
-
----
-
 ## 책 실습 가이드 — 『n8n이 다해줌』 (한빛미디어) / n8n-guidbook
 
 - 저자: 이인영, 임정
@@ -26,6 +18,16 @@
 | 5장 | 회의록 STT | AssemblyAI, Google Gemini | [바로가기](./01-hanbit-n8n-guidebook/chap5/) |
 | 6장 | OCR — 영수증 인식 자동화 | Upstage OCR, Google Gemini, Google Sheets | [바로가기](./01-hanbit-n8n-guidebook/chap6/) |
 | 7장 | 주식 시세 — AI 투자 리포트 메일링 | 공공데이터포털 API, Google Gemini, Gmail | [바로가기](./01-hanbit-n8n-guidebook/chap7/) |
+
+---
+
+## 치트시트 / Cheatsheet
+
+| 자료 / Resource | 설명 / Description | 링크 / Link |
+|------|------|------|
+| 데이터 파이프라인 치트시트 | 핵심 노드 한눈에 정리 (한/영 PDF, PNG) | [바로가기](./03-cheatsheet-for-datapipeline/) |
+
+
 
 ---
 
