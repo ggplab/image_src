@@ -1,22 +1,22 @@
 # n8n Playbook
 
-실무 자동화 워크플로우 모음과 『n8n이 다해줌』 책 실습 자료를 함께 제공합니다.
+한빛미디어 『n8n이 다해줌』 책 실습 자료와 실무 자동화 워크플로우를 함께 제공합니다.
 
 #n8n #DataPipeline #Automation #NoCode #DataAnalysis
 
 ---
 
-## 치트시트
+## 치트시트 / Cheatsheet
 
-| 자료 | 설명 | 링크 |
+| 자료 / Resource | 설명 / Description | 링크 / Link |
 |------|------|------|
 | 데이터 파이프라인 치트시트 | 핵심 노드 한눈에 정리 (한/영 PDF, PNG) | [바로가기](./01-cheatsheet/) |
 
 ---
 
-## 책 실습 가이드 — 『n8n이 다해줌』 (한빛미디어)
+## 책 실습 가이드 — 『n8n이 다해줌』 (한빛미디어) / Book Guide
 
-| 장 | 워크플로우 | 주요 서비스 | 링크 |
+| 장 / Ch. | 워크플로우 / Workflow | 주요 서비스 / Services | 링크 / Link |
 |----|-----------|------------|------|
 | 2장 | 구글 RSS 피드 뉴스 메일링 | Google News RSS, Gmail | [바로가기](./hanbit-n8n-guidebook/chap2/) |
 | 3장 | OpenWeatherMap 날씨 알림 | OpenWeatherMap API, Discord | [바로가기](./hanbit-n8n-guidebook/chap3/) |
@@ -27,9 +27,9 @@
 
 ---
 
-## 실무 워크플로우 플레이북
+## 실무 워크플로우 플레이북 / Workflow Playbook
 
-| # | 워크플로우 | 주요 서비스 | 링크 |
+| # | 워크플로우 / Workflow | 주요 서비스 / Services | 링크 / Link |
 |---|-----------|------------|------|
 | 02 | 농수산물 시세 AI Agent | KAMIS API, Google Sheets | [바로가기](./workflows/02-workflow-farm-data/) |
 | 03 | Slack 근태 관리 자동화 | Slack, Google Sheets | [바로가기](./workflows/03-workflow-attendance/) |
@@ -47,7 +47,7 @@
 
 ---
 
-## 기여자
+## 기여자 / Contributors
 > Organized by 임정(지지플랩)
 
 - 임정 @ 지지플랩 · [LinkedIn](https://www.linkedin.com/in/jayjunglim/) · [블로그](https://snowgot.tistory.com)
@@ -55,3 +55,7 @@
 - 이효원 · [LinkedIn](https://www.linkedin.com/in/hyowonlee1807/) · [블로그](https://dlgydnjs718.tistory.com/)
 - 강동완 · [블로그](https://lovecat09.tistory.com/manage/posts/)
 - 김차병 · [블로그](https://bitsoo97.tistory.com/)
+- 이인영
+- 이주영
+- 박수진
+- 안규현
