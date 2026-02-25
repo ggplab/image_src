@@ -1,0 +1,214 @@
+{
+  "name": "3. OpenWeathermap",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "triggerAtHour": 6
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -16,
+        96
+      ],
+      "id": "fc819467-1cf4-4373-b0d9-0e201ca002cf",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "cityName": "Seoul",
+        "language": "kr"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        256,
+        0
+      ],
+      "id": "d20f516d-a71d-4cf7-8eb7-ea689f8eada1",
+      "name": "OpenWeatherMap",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "1z17KkoLjDQ5BD18",
+          "name": "OpenWeatherMap 3장"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "5DayForecast",
+        "cityName": "Seoul",
+        "language": "kr"
+      },
+      "type": "n8n-nodes-base.openWeatherMap",
+      "typeVersion": 1,
+      "position": [
+        256,
+        192
+      ],
+      "id": "cac1b28e-da21-45ed-a513-f7121f0f4d80",
+      "name": "OpenWeatherMap1",
+      "credentials": {
+        "openWeatherMapApi": {
+          "id": "1z17KkoLjDQ5BD18",
+          "name": "OpenWeatherMap 3장"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        480,
+        96
+      ],
+      "id": "76486a18-c8fd-489f-85ff-14b0f0ca6e8f",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "authentication": "webhook",
+        "content": "={{ $json.dt.toDateTime('s').format('yyyy-MM-dd HH:mm') }} 기준 날씨 리포트\n\n📍 현재 서울 날씨\n- 상태: {{ $json.weather[0].description }}\n- 기온: {{ $json.main.temp }}°C (체감 {{ $json.main.feels_like }}°C)\n- 일출: {{ $json.sys.sunrise.toDateTime('s').format('HH:mm') }} / 일몰: {{ $json.sys.sunset.toDateTime('s').format('HH:mm') }}\n\n🌥️ 내일 예보 (약 24시간 후)\n- 상태: {{ $json.list[10].weather[0].description }}\n- 기온: {{ $json.list[10].main.temp }}°C (체감 {{ $json.list[10].main.feels_like }}°C)\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.discord",
+      "typeVersion": 2,
+      "position": [
+        736,
+        96
+      ],
+      "id": "ad217899-27f4-4fc5-b690-fe0b64314854",
+      "name": "Discord",
+      "webhookId": "03e8e967-f643-4e29-b711-5aad734b4651",
+      "credentials": {
+        "discordWebhookApi": {
+          "id": "8ZY8IMmbGjMqYLtK",
+          "name": "Discord Webhook account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Trigger",
+        "height": 432,
+        "width": 256
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -112,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "78c86e0d-18d3-451a-ac5a-ed30be08d9ee",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Task",
+        "height": 432,
+        "width": 432,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "e2140d3a-d808-48e4-9cec-f049335cf07c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# Target",
+        "height": 432,
+        "width": 304,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        656,
+        -96
+      ],
+      "typeVersion": 1,
+      "id": "e1b8840c-104d-4af5-b19f-7323d4781e98",
+      "name": "Sticky Note2"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "OpenWeatherMap",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "OpenWeatherMap1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "OpenWeatherMap": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Discord",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "23ffac2c-b9a7-4467-8656-7f2f89a30c42",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0c3df53d06f8e98b76dce975edff00f3b3bb54cd4a475a425a4806301153f7bf"
+  },
+  "id": "ieIy6umM-08-o8ilA4Fns",
+  "tags": []
+}

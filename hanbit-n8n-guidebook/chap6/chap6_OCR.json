@@ -1,0 +1,360 @@
+{
+  "name": "6장 OCR",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "이미지 업로드",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "이미지",
+              "fieldType": "file",
+              "fieldName": "document"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.5,
+      "position": [
+        720,
+        0
+      ],
+      "id": "d93da6e6-4b0a-492c-a710-c3867cc40f27",
+      "name": "On form submission",
+      "webhookId": "3d6e59c3-8543-45e2-9450-83d0dcb916e8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.upstage.ai/v1/document-digitization",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpBearerAuth",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "model",
+              "value": "ocr"
+            },
+            {
+              "parameterType": "formBinaryData",
+              "name": "document",
+              "inputDataFieldName": "document"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        928,
+        0
+      ],
+      "id": "f6f9a227-5bd2-4588-b509-e7c088a5ccbf",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpBearerAuth": {
+          "id": "xgllShAqASew2OeT",
+          "name": "8장 업스테이지_ocr"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3e6df261-ecbf-401e-9dc7-502ec985d02f",
+              "name": "text",
+              "value": "={{ $json.text }}",
+              "type": "string"
+            },
+            {
+              "id": "350ab669-12ef-4519-a4e9-7b17b7d4290a",
+              "name": "timestamp",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "c9dd6d90-1306-4274-ac80-ba00eab235c6",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1136,
+        0
+      ],
+      "id": "6d460f8e-e956-469a-9bbd-f249de158c11",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.text }}",
+        "hasOutputParser": true,
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=3가지를 정제해\n\n1. 구매 날짜(시분초)\n2. 카드번호\n3. 총금액"
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        1344,
+        0
+      ],
+      "id": "8201042e-f25f-40a8-95ee-5043246e335e",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        176
+      ],
+      "id": "509c19ea-d03b-48e5-885f-409806a81391",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "TXxUKS5yUfyzEmms",
+          "name": "[지지플랩]n8n실습용"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n    \"timestamp\": \"YYYY-MM-DD HH:MM:SS\",\n\t\"amt\": \"총 금액\",\n\t\"card\": \"카드번호\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        1488,
+        176
+      ],
+      "id": "0e5da81e-d34e-4b28-a07d-535b46abb8a5",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY",
+          "mode": "list",
+          "cachedResultName": "업스테이지_OCR",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "시트1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "timestamp": "={{ $json.output.timestamp }}",
+            "amt": "={{ $json.output.amt }}",
+            "cardnumber": "={{ $json.output.card }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "timestamp",
+              "displayName": "timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "cardnumber",
+              "displayName": "cardnumber",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "amt",
+              "displayName": "amt",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        1696,
+        0
+      ],
+      "id": "8c0cd10c-6281-4460-ae1f-58dd05caa0ee",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "WOMSxXuJLz0XtbD6",
+          "name": "업스테이지_OCR"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "# Target",
+        "height": 512,
+        "width": 288,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1648,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "f8799dd9-58b3-41c5-9c10-0bab13c52c00",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# Trigger",
+        "height": 512,
+        "width": 288
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        592,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "1837dea7-b949-4f69-abc5-984756371e28",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# Task",
+        "height": 512,
+        "width": 768,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        896,
+        -144
+      ],
+      "typeVersion": 1,
+      "id": "8d5d673c-8dd5-4eec-bdf6-4771808dd76e",
+      "name": "Sticky Note1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "1dad34a5-c9dc-4436-a7eb-51ac5b671f0e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0c3df53d06f8e98b76dce975edff00f3b3bb54cd4a475a425a4806301153f7bf"
+  },
+  "id": "ea7Cjd4V3WRWb03Q",
+  "tags": []
+}
