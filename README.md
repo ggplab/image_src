@@ -68,4 +68,4 @@
 - 이인영 · [LinkedIn](https://www.linkedin.com/in/2innnnn0)
 - 이주영 · [LinkedIn](https://www.linkedin.com/in/jooyoung-yi-3181b4382/)
 - 박수진 · [LinkedIn](https://www.linkedin.com/in/sujin-park-435842381/)
-- 안규현 · 
+- 안규현 · [LinkedIn](https://www.linkedin.com/in/gyuhyun-ann-573b09165/)
