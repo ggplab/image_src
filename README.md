@@ -67,5 +67,5 @@
 - 김차병 · [블로그](https://bitsoo97.tistory.com/)
 - 이인영 · [LinkedIn](https://www.linkedin.com/in/2innnnn0)
 - 이주영 · [LinkedIn](https://www.linkedin.com/in/jooyoung-yi-3181b4382/)
-- 박수진 · 
+- 박수진 · [LinkedIn](https://www.linkedin.com/in/sujin-park-435842381/)
 - 안규현 · 
