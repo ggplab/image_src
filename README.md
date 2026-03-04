@@ -65,7 +65,7 @@
 - 이효원 · [LinkedIn](https://www.linkedin.com/in/hyowonlee1807/) · [블로그](https://dlgydnjs718.tistory.com/)
 - 강동완 · [블로그](https://lovecat09.tistory.com/manage/posts/)
 - 김차병 · [블로그](https://bitsoo97.tistory.com/)
-- 이인영
-- 이주영
-- 박수진
-- 안규현
+- 이인영 · [LinkedIn](https://www.linkedin.com/in/2innnnn0)
+- 이주영 · 
+- 박수진 · 
+- 안규현 · 
