@@ -1,0 +1,411 @@
+{
+  "name": "6. 회의록자동요약 (최종)",
+  "nodes": [
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=[음성 인식 텍스트]\n{{ $('Transcribe a recording(gemini)').item.json.content.parts[0].text }}\n"
+            },
+            {
+              "content": "=당신은 전문적인 교정 및 편집 에디터입니다.\n아래 제공되는 [음성 인식 텍스트]를 바탕으로 다음의 [작업 지침]을 엄격히 준수하여 텍스트를 다듬어 주세요.\n\n[작업 지침]\n1. **교정 및 윤문**: 맞춤법, 띄어쓰기, 문법 오류를 수정하고 문장의 흐름이 자연스럽게 이어지도록 매끄럽게 다듬으세요.\n2. **길이 유지 (요약 금지)**: 내용을 요약하거나 축약하지 마세요. 원문의 정보량과 길이를 그대로 유지해야 합니다.\n3. **누락 방지**: 텍스트의 시작부터 끝까지, 어떤 문장도 누락되지 않도록 꼼꼼하게 검토하여 변환하세요.\n4. **문맥 수정**: 음성 인식(STT) 과정에서 잘못 인식된 것으로 보이는 단어나 문맥상 어색한 표현은 상황에 가장 적합한 단어로 수정하세요.\n5. **출력 형식**: 교정이 완료된 텍스트만 출력하세요. (인사말이나 부가 설명 생략)",
+              "role": "model"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1264,
+        1728
+      ],
+      "id": "10212f3b-76f6-495c-81bc-e3f7aca80bf2",
+      "name": "Check Typo",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "hFaj6ZUECKuvukbY",
+          "name": "Google Gemini(PaLM) Api account(popcorn)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "={{ $json.content.parts[0].text }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {
+          "systemMessage": "=당신은 비즈니스 문서 정리에 특화된 '수석 서기'입니다.\n제공된 회의 스크립트(타임코드 포함)를 분석하여, 다음 JSON 포맷으로 정리된 회의록을 작성하세요.\n\n[출력 포맷 - JSON]\n{\n  \"meeting_date\": \"미팅 날짜 (YYYY-MM-DD 형식. 값이 없는 경우 {{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }} 를 기본값을 설정)\",\n  \"meeting_title\": \"회의 주제\",\n  \"meeting_oneline\": \"한줄 요약\",\n  \"meeting_attendee\": [\"참석자1\", \"참석자2\"],\n  \"meeting_summary\": \"미팅 요약 (아래 작성 지침에 따른 마크다운 형식의 텍스트, 2000자 미만)\"\n}\n\n[meeting_summary 작성 지침 - 엄격 준수]\n\n1. **3줄 요약 (Executive Summary)**\n   - 회의의 핵심 목적과 결론을 가장 중요한 순서대로 딱 3문장으로 요약하세요.\n\n2. **발언자별 핵심 발언 (Who Said What)**\n   - **담당 업무는 제외하고**, 각 참여자가 회의에서 논의한 **주요 의견만** 간결하게 요약하세요.\n   - **형식:**\n     - **이름**: 주요 발언 요약\n\n3. **담당자별 액션 아이템 (Action Items by Assignee)**\n   - 회의에서 도출된 할 일을 담당자별로 그룹화하여 정리하세요.\n   - 공동 작업이거나 담당자가 불명확할 경우 '공통' 또는 '팀 전체'로 분류하세요.\n   - **형식:**\n     - **담당자명**\n       - [ ] 할 일 내용 (마감: 문맥상 날짜가 유추될 경우 기입하고, 그렇지 않다면 빈칸 유지, 보통 마감일은 {{ $now.toFormat('yyyy-MM-dd') }} 보다 이후 날짜가 맞으므로 {{ $now.toFormat('yyyy-MM-dd') }} 이후 날짜라면 마감일 생략.)\n       - [ ] 할 일 내용\n   - **[위험 고지]** 액션 아이템의 마감 기한은 **문맥상 명확하게 언급되었을 때만 기입**하며, 유추된 마감일에는 **더블 체크가 필요함**을 상기하세요.\n\n[주의사항]\n- 응답은 오직 JSON 데이터만 출력하세요.\n- meeting_summary 필드에 마크다운 줄바꿈(\\n)을 포함하여 텍스트로 넣으세요."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -912,
+        1728
+      ],
+      "id": "0a5acde9-c2b5-4bd8-bc49-2514c0bc7260",
+      "name": "Summarize",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "hFaj6ZUECKuvukbY",
+          "name": "Google Gemini(PaLM) Api account(popcorn)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Target\n### Notion 업로드\n회의록 DB 페이지 생성 및 회의록 업로드",
+        "height": 336,
+        "width": 256,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -640,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "37773854-8246-4772-827c-1c2435d40b83",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Task\n### Gemini transcription(STT)\n압축된 음성 파일을 텍스트로 변환",
+        "height": 336,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2008,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "7f8a53e3-6caa-4c61-91a7-b78c5ab3dbad",
+      "name": "Sticky Note13"
+    },
+    {
+      "parameters": {
+        "content": "## Task\n### 문법 교정 (Gemini 2.5 Flash)\n음성 녹음 파일을 자막으로 변경하면, 맞춤법, 흐름 등 자연스럽게 문맥 교정",
+        "height": 336,
+        "width": 320,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1312,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "f8ad3288-9f71-4945-9a5c-c96ac1e75025",
+      "name": "Sticky Note11"
+    },
+    {
+      "parameters": {
+        "content": "## Task\n### 회의 요약 (Gemini 2.5 Flash)\n전반적인 회의 내용 파악 및 하이라이트, 3줄 요약 등",
+        "height": 336,
+        "width": 304,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -952,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "63267394-20fe-433d-83a7-bbeb2aac54f2",
+      "name": "Sticky Note14"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "content.parts[0].text",
+        "options": {
+          "fileName": "={{ $('Webhook').item.binary.data.fileName.replace(/\\.[^.]+$/, '') }}_회의록.txt"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        -1712,
+        1728
+      ],
+      "id": "c5c75a45-3273-44a3-b653-ec8c1dd30b7d",
+      "name": "meeting_transcript_text_file"
+    },
+    {
+      "parameters": {
+        "resource": "audio",
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "inputType": "binary",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        -1936,
+        1728
+      ],
+      "id": "325792d1-b871-4f58-83e3-dca17526fd60",
+      "name": "Transcribe a recording(gemini)",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "GofNDD9QAfpAUlJ0",
+          "name": "Google Gemini(PaLM) Api account (dev)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "name": "={{ $('meeting_transcript_text_file').item.binary.data.fileName }}",
+        "driveId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "My Drive"
+        },
+        "folderId": {
+          "__rl": true,
+          "value": "1YQ1kqa2D6-_uZUPFcF2qY-PqRUWiFwar",
+          "mode": "list",
+          "cachedResultName": "meeting",
+          "cachedResultUrl": "https://drive.google.com/drive/folders/1YQ1kqa2D6-_uZUPFcF2qY-PqRUWiFwar"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        -1488,
+        1728
+      ],
+      "id": "417949ab-9c9a-4d62-b0ed-5f6b9a4a9348",
+      "name": "Upload file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "F6EYYd6RwVKZJH86",
+          "name": "Google Drive account(DP)"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Task\n### 회의록 파일 구글 드라이브 업로드",
+        "height": 336,
+        "width": 416,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1760,
+        1552
+      ],
+      "typeVersion": 1,
+      "id": "1a3639e4-891d-44b8-b5da-27cb6a9f3767",
+      "name": "Sticky Note15"
+    },
+    {
+      "parameters": {
+        "resource": "databasePage",
+        "databaseId": {
+          "__rl": true,
+          "value": "30c13bcf-ac5a-800f-9a68-c3799070532f",
+          "mode": "list",
+          "cachedResultName": "테스트 회의록",
+          "cachedResultUrl": "https://www.notion.so/30c13bcfac5a800f9a68c3799070532f"
+        },
+        "title": "=[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ $json.content.parts[0].text.parseJson().meeting_title }}",
+        "propertiesUi": {
+          "propertyValues": [
+            {
+              "key": "회의 날짜|date",
+              "includeTime": false,
+              "date": "={{ $json.content.parts[0].text.parseJson().meeting_date }}"
+            },
+            {
+              "key": "회의 주제|title",
+              "title": "={{ $json.content.parts[0].text.parseJson().meeting_title }}"
+            },
+            {
+              "key": "한줄 요약|rich_text",
+              "textContent": "={{ $json.content.parts[0].text.parseJson().meeting_oneline }}"
+            },
+            {
+              "key": "파일|files",
+              "fileUrls": {
+                "fileUrl": [
+                  {
+                    "name": "={{ $('meeting_transcript_text_file').first().binary.data.fileName }}",
+                    "url": "={{ $('Upload file').item.json.webContentLink }}"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "blockUi": {
+          "blockValues": [
+            {
+              "textContent": "={{ $json.content.parts[0].text.parseJson().meeting_summary }}"
+            }
+          ]
+        },
+        "options": {
+          "icon": "🤖"
+        }
+      },
+      "type": "n8n-nodes-base.notion",
+      "typeVersion": 2.2,
+      "position": [
+        -560,
+        1728
+      ],
+      "id": "615b86c4-4126-4beb-aefb-0b9ecc75bdd1",
+      "name": "Create a database page(meeting)",
+      "credentials": {
+        "notionApi": {
+          "id": "zIbyXQ0zDwpsJr44",
+          "name": "Notion account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Trigger (Webhook)\n- *iOS(아이폰) 유저만 가능합니다.\n- [단축어shortcut  파일 다운로드](https://www.icloud.com/shortcuts/9767e709c79e40d1827c39cb4cc9dbce)\n- 해당 기능 사용을 위해서 반드시 워크플로우 `Publish`가 되어야 합니다.\n- Production URL 복사 후 shortcut에서 진행하기.",
+        "height": 368,
+        "width": 352
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -2368,
+        1520
+      ],
+      "typeVersion": 1,
+      "id": "fd07740a-5600-43a5-a632-be3acc455df8",
+      "name": "Sticky Note16"
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "audio-transcribe",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -2160,
+        1728
+      ],
+      "id": "fe6ba6e4-b10b-420a-8202-5acdc2142199",
+      "name": "Webhook",
+      "webhookId": "e71fa8df-77ab-43fa-8dac-7080acc82ab4"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Check Typo": {
+      "main": [
+        [
+          {
+            "node": "Summarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Summarize": {
+      "main": [
+        [
+          {
+            "node": "Create a database page(meeting)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "meeting_transcript_text_file": {
+      "main": [
+        [
+          {
+            "node": "Upload file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Transcribe a recording(gemini)": {
+      "main": [
+        [
+          {
+            "node": "meeting_transcript_text_file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload file": {
+      "main": [
+        [
+          {
+            "node": "Check Typo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Transcribe a recording(gemini)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "versionId": "ffe75e88-bfd7-4095-af4d-a71528532ccc",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0c3df53d06f8e98b76dce975edff00f3b3bb54cd4a475a425a4806301153f7bf"
+  },
+  "id": "M0CCw36DMXec0BHe",
+  "tags": []
+}
