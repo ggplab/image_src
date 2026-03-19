@@ -1,4 +1,4 @@
-# 5장. 회의록 STT — AssemblyAI 음성 인식 자동화
+# 5장. 회의록 STT
 
 > iOS 단축어(Shortcut)로 녹음한 음성 파일을 n8n Webhook으로 전달하면, AssemblyAI가 음성을 전사하고 AI가 교정·윤문 후 JSON 형식 회의록을 자동 생성하는 워크플로우
 
