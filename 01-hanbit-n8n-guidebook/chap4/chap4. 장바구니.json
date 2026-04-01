@@ -1,5 +1,4 @@
 {
-  "name": "4장. 장바구니",
   "nodes": [
     {
       "parameters": {
@@ -10,10 +9,10 @@
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.4,
       "position": [
-        0,
-        0
+        -128,
+        -48
       ],
-      "id": "c2a59f19-2185-4ce6-aa32-fa5a3579024b",
+      "id": "aeb75943-2eb3-48ec-9885-5df22b2b7ef9",
       "name": "When chat message received",
       "webhookId": "235af821-af7b-424b-9626-9d46377e8d1f"
     },
@@ -26,40 +25,21 @@
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
       "position": [
-        208,
-        0
+        96,
+        -48
       ],
-      "id": "9b68056a-ad8f-4ced-86cb-55bbd66458f3",
+      "id": "22a139c1-da4b-4571-82e6-d47f66c3391e",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
-      "typeVersion": 1,
-      "position": [
-        80,
-        208
-      ],
-      "id": "24eac429-24e7-4324-a7f5-f413d94b473d",
-      "name": "Google Gemini Chat Model",
-      "credentials": {
-        "googlePalmApi": {
-          "id": "TXxUKS5yUfyzEmms",
-          "name": "[지지플랩]n8n실습용"
-        }
-      }
     },
     {
       "parameters": {},
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
       "position": [
-        224,
-        208
+        112,
+        160
       ],
-      "id": "2759e770-e195-4ea7-b5b8-558215132d4b",
+      "id": "8db70791-a856-45c4-a9d1-f968a6e26a27",
       "name": "Simple Memory"
     },
     {
@@ -83,24 +63,66 @@
       "type": "n8n-nodes-base.googleSheetsTool",
       "typeVersion": 4.7,
       "position": [
-        368,
-        208
+        384,
+        160
       ],
-      "id": "562bb67d-a0da-4cc5-893a-4b3b9e5851fe",
+      "id": "76cd2943-e1bd-47bd-b441-69f76ee29cd0",
       "name": "Get row(s) in sheet in Google Sheets",
       "credentials": {
         "googleSheetsOAuth2Api": {
-          "id": "tLrxK8UwV6WpZpWb",
-          "name": "[지지플랩]임정"
+          "id": "qgcTaEbHs4iKKK4h",
+          "name": "[데이터팝콘]임정"
         }
       }
     },
     {
       "parameters": {
-        "url": "https://www.kamis.or.kr/service/price/xml.do?action=dailyPriceByCategoryList",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        160
+      ],
+      "id": "7f260608-dd24-4168-b3ab-8287eb084639",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "txHyfbmXb0FyHr3N",
+          "name": "[지지플랩]임정_데이터팝콘통합"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "item_category_code"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        496,
+        -48
+      ],
+      "id": "e5aef301-1114-4a24-82d0-fedef21ea90c",
+      "name": "When Executed by Another Workflow"
+    },
+    {
+      "parameters": {
+        "url": "http://www.kamis.or.kr/service/price/xml.do",
         "sendQuery": true,
         "queryParameters": {
           "parameters": [
+            {
+              "name": "action",
+              "value": "dailyPriceByCategoryList"
+            },
             {
               "name": "p_product_cls_code",
               "value": "02"
@@ -111,43 +133,83 @@
             },
             {
               "name": "p_regday",
-              "value": "2025-12-01"
-            },
-            {
-              "name": "p_convert_kg_yn",
-              "value": "N"
+              "value": "={{$now.format(\"yyyy-MM-dd\")}}"
             },
             {
               "name": "p_item_category_code",
-              "value": "200"
+              "value": "={{$json.item_category_code}}"
             },
             {
               "name": "p_cert_key",
-              "value": "YOUR_CERT_KEY_HERE"
+              "value": "1318c60d-59ae-49a9-889e-adf4a77dcbed"
             },
             {
               "name": "p_cert_id",
-              "value": "YOUR_CERT_ID_HERE"
+              "value": "4809"
             },
             {
               "name": "p_returntype",
-              "value": "xml"
+              "value": "json"
             }
           ]
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.httpRequestTool",
+      "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
       "position": [
-        528,
-        208
+        704,
+        -48
       ],
-      "id": "22c625a0-874f-4a0f-8902-008716b27869",
-      "name": "HTTP Request"
+      "id": "95307b14-0f79-43bd-b529-803e9e8a9840",
+      "name": "HTTP Request",
+      "retryOnFail": true,
+      "maxTries": 5,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "NLPok8rS5uwhq3yi",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/NLPok8rS5uwhq3yi",
+          "cachedResultName": "BOOK — 장바구니(정아님이겁니다)"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "item_category_code": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('item_category_code', `Google Sheets에서 찾은 부류코드예: 딸기면 200, 고구마면 100 처럼  \"숫자 + 00\"의 형태`, 'string') }}"
+          },
+          "matchingColumns": [
+            "item_category_code"
+          ],
+          "schema": [
+            {
+              "id": "item_category_code",
+              "displayName": "item_category_code",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
+      "typeVersion": 2.2,
+      "position": [
+        256,
+        160
+      ],
+      "id": "a39017ed-709d-4fb3-9c83-bccda7905376",
+      "name": "Call '장바구니'"
     }
   ],
-  "pinData": {},
   "connections": {
     "When chat message received": {
       "main": [
@@ -155,17 +217,6 @@
           {
             "node": "AI Agent",
             "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Google Gemini Chat Model": {
-      "ai_languageModel": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_languageModel",
             "index": 0
           }
         ]
@@ -193,7 +244,29 @@
         ]
       ]
     },
-    "HTTP Request": {
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call '장바구니'": {
       "ai_tool": [
         [
           {
@@ -205,17 +278,9 @@
       ]
     }
   },
-  "active": true,
-  "settings": {
-    "executionOrder": "v1",
-    "binaryMode": "separate",
-    "availableInMCP": false
-  },
-  "versionId": "39ffa4ad-a3d6-4d86-a0d0-891ee9976af5",
+  "pinData": {},
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "0c3df53d06f8e98b76dce975edff00f3b3bb54cd4a475a425a4806301153f7bf"
-  },
-  "id": "o7YGrGLhaDbwye2uGDghI",
-  "tags": []
+  }
 }
