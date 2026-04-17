@@ -6,6 +6,29 @@
 
 ---
 
+## 책 표지 / Book Cover
+
+<p align="center">
+  <img src="./assets/book-cover/3d.png" alt="n8n이 다해줌 3D 표지" width="400"/>
+</p>
+
+<p align="center">
+  <img src="./assets/book-cover/front.jpg" alt="n8n이 다해줌 앞표지" width="300"/>
+  &nbsp;&nbsp;
+  <img src="./assets/book-cover/back.jpg" alt="n8n이 다해줌 뒤표지" width="300"/>
+</p>
+
+---
+
+## 북트레일러 / Book Trailer
+
+> GitHub는 MP4 임베드를 지원하지 않습니다. 아래 파일을 직접 다운로드하거나 클릭하여 재생하세요.
+
+- [북트레일러 (한국어)](./assets/n8nDoesItAll_book-trailer-ko.mp4)
+- [Book Trailer (English)](./assets/n8nDoesItAll_book-trailer-en.mp4)
+
+---
+
 ## 책 실습 가이드 — 『n8n이 다해줌』 (한빛미디어) / n8n-guidbook
 
 - 저자: 이인영, 임정
