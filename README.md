@@ -12,6 +12,17 @@
   <img src="./assets/book-cover/3d.png" alt="n8n이 다해줌 3D 표지" width="400"/>
 </p>
 
+지긋지긋한 반복 업무, 『n8n이 다 해줌』 으로 고민 해결! 😎
+
+📚 **『n8n이 다 해줌』** 2026-04-25 출간 (예약판매 중)
+
+| 서점 | 링크 |
+|------|------|
+| 📖 YES24 | [바로가기](https://www.yes24.com/product/goods/185269651) |
+| 📖 알라딘 | [바로가기](https://www.aladin.co.kr/shop/wproduct.aspx?ItemId=389930528) |
+| 📖 교보문고 | [바로가기](https://product.kyobobook.co.kr/detail/S000219616275) |
+| 📖 한빛미디어 | [바로가기](https://www.hanbit.co.kr/store/books/look.php?p_code=B5287461531) |
+
 ---
 
 ## 북트레일러 / Book Trailer
