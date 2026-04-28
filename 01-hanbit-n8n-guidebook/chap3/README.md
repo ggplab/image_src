@@ -31,16 +31,17 @@ Schedule Trigger ──┤                               ├→ Merge → Discor
 Discord 노드에서 사용하는 n8n expression입니다.
 
 ```text
-={{ $json.dt.toDateTime('s').format('yyyy-MM-dd HH:mm') }} 기준 날씨 리포트
+{{ $json.dt.toDateTime('s').format('yyyy-MM-dd HH:mm') }} 기준 날씨 리포트
 
 📍 현재 서울 날씨
 - 상태: {{ $json.weather[0].description }}
 - 기온: {{ $json.main.temp }}°C (체감 {{ $json.main.feels_like }}°C)
 - 일출: {{ $json.sys.sunrise.toDateTime('s').format('HH:mm') }} / 일몰: {{ $json.sys.sunset.toDateTime('s').format('HH:mm') }}
 
-🌥️ 내일 예보 (오전 9시)
-- 상태: {{ $json.list[11].weather[0].description }}
-- 기온: {{ $json.list[11].main.temp }}°C (체감 {{ $json.list[11].main.feels_like }}°C)
+🌥️ 내일 예보 (오전 6시)
+- 상태: {{ $json.list[8].weather[0].description }}
+- 기온: {{ $json.list[8].main.temp }}°C (체감 {{ $json.list[8].main.feels_like }}°C)
+
 ```
 
 ## 실습 안내
