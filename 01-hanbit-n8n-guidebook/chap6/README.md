@@ -1,6 +1,7 @@
 # 6장. OCR — 영수증 인식 자동화
 
 > 영수증 이미지를 업로드하면 OCR로 텍스트를 추출하고, AI가 구매 날짜·카드번호·총금액을 정제하여 Google Sheets에 자동 기록하는 워크플로우
+> 참고 레퍼런스: https://console.upstage.ai/docs/capabilities/parse/document-ocr
 
 ## 워크플로우 개요
 
