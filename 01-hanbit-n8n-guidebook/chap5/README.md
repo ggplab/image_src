@@ -156,13 +156,13 @@ Gemini가 JSON 모드로 응답해도 n8n에 전달될 때는 **이스케이프�
 
 | Notion 필드 | 표현식 | 의미 |
 |---|---|---|
-| 페이지 제목 (Title) | `=[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ JSON.parse($json.content.parts[0].text).meeting_title }}` | `[YYYY-MM-DD]회의 제목` 형태로 결합 |
-| 회의 날짜 (Date) | `={{ JSON.parse($json.content.parts[0].text).meeting_date }}` | JSON에서 `meeting_date` 추출 |
-| 회의 주제 (Title 속성) | `={{ JSON.parse($json.content.parts[0].text).meeting_title }}` | JSON에서 `meeting_title` 추출 |
-| 한줄 요약 (Rich text) | `={{ JSON.parse($json.content.parts[0].text).meeting_oneline }}` | JSON에서 `meeting_oneline` 추출 |
-| 파일 이름 (Files) | `={{ $('meeting_transcript_text_file').first().binary.data.fileName }}` | 텍스트 파일명 참조 |
-| 파일 URL (Files) | `={{ $('Upload file').item.json.webContentLink }}` | Google Drive 직접 다운로드 링크 |
-| 본문 블록 (Block) | `={{ JSON.parse($json.content.parts[0].text).meeting_summary }}` | 마크다운 상세 요약 |
+| 페이지 제목 (Title) | `[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ JSON.parse($json.content.parts[0].text).meeting_title }}` | `[YYYY-MM-DD]회의 제목` 형태로 결합 |
+| 회의 날짜 (Date) | `{{ JSON.parse($json.content.parts[0].text).meeting_date }}` | JSON에서 `meeting_date` 추출 |
+| 회의 주제 (Title 속성) | `{{ JSON.parse($json.content.parts[0].text).meeting_title }}` | JSON에서 `meeting_title` 추출 |
+| 한줄 요약 (Rich text) | `{{ JSON.parse($json.content.parts[0].text).meeting_oneline }}` | JSON에서 `meeting_oneline` 추출 |
+| 파일 이름 (Files) | `{{ $('meeting_transcript_text_file').first().binary.data.fileName }}` | 텍스트 파일명 참조 |
+| 파일 URL (Files) | `{{ $('Upload file').item.json.webContentLink }}` | Google Drive 직접 다운로드 링크 |
+| 본문 블록 (Block) | `{{ JSON.parse($json.content.parts[0].text).meeting_summary }}` | 마크다운 상세 요약 |
 
 #### 실수하기 쉬운 포인트
 
