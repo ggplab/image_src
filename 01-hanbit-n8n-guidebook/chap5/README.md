@@ -115,19 +115,60 @@ n8n 표현식(`={{ }}`)은 이전 노드의 데이터를 현재 노드에서 동
 
 ### Create a database page — JSON 파싱 및 필드 추출
 
-Summarize 노드가 반환하는 텍스트는 JSON 문자열입니다. 이를 파싱하여 각 Notion 필드에 매핑합니다.
+Summarize 노드가 반환하는 `content.parts[0].text`는 **JSON 형식의 문자열(string)** 입니다. 그대로 `.meeting_title` 같은 키로 접근할 수 없기 때문에, **`JSON.parse()`로 한 번 파싱**해서 객체로 만든 뒤 필드를 꺼내야 합니다.
 
-| 필드 | 표현식 | 목적 |
+#### 왜 파싱이 필요한가
+
+Summarize 노드의 출력 예시:
+
+```jsonc
+{
+  "content": {
+    "parts": [
+      {
+        // ↓ 이 text 값은 "객체"가 아니라 "문자열"입니다
+        "text": "{\"meeting_date\":\"2026-04-29\",\"meeting_title\":\"주간 미팅\",...}"
+      }
+    ]
+  }
+}
+```
+
+Gemini가 JSON 모드로 응답해도 n8n에 전달될 때는 **이스케이프된 문자열**로 들어옵니다. 그래서 한 단계 파싱이 필요합니다.
+
+#### 파싱 표현식 패턴
+
+```js
+{{ JSON.parse($json.content.parts[0].text).meeting_title }}
+```
+
+| 표현식 요소 | 역할 |
+|---|---|
+| `$json.content.parts[0].text` | Summarize 노드가 반환한 JSON 문자열 |
+| `JSON.parse(...)` | 문자열을 실제 JS 객체로 변환 |
+| `.meeting_title` | 파싱된 객체에서 원하는 키만 추출 |
+
+> **Tip.** n8n에는 `.parseJson()` 같은 헬퍼도 있지만, **`JSON.parse(...)`가 표준 자바스크립트 문법이라 더 안전하고 읽기 쉽습니다.** 책/강의에서는 `JSON.parse(...)`로 통일합니다.
+
+#### Notion 노드 필드별 표현식
+
+위 패턴을 그대로 6개 필드에 동일하게 적용합니다. 각 필드 입력란에 그대로 복붙하세요.
+
+| Notion 필드 | 표현식 | 의미 |
 |---|---|---|
-| 페이지 제목 | `=[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ $json.content.parts[0].text.parseJson().meeting_title }}` | 날짜 + 회의 제목으로 페이지명 구성 |
-| 회의 날짜 | `={{ $json.content.parts[0].text.parseJson().meeting_date }}` | JSON에서 날짜 필드 추출 |
-| 회의 주제 | `={{ $json.content.parts[0].text.parseJson().meeting_title }}` | JSON에서 제목 필드 추출 |
-| 한줄 요약 | `={{ $json.content.parts[0].text.parseJson().meeting_oneline }}` | JSON에서 한줄 요약 추출 |
-| 파일 이름 | `={{ $('meeting_transcript_text_file').first().binary.data.fileName }}` | 텍스트 파일명 참조 |
-| 파일 URL | `={{ $('Upload file').item.json.webContentLink }}` | Google Drive 직접 다운로드 링크 |
-| 본문 블록 | `={{ $json.content.parts[0].text.parseJson().meeting_summary }}` | 마크다운 상세 요약 |
+| 페이지 제목 (Title) | `=[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ JSON.parse($json.content.parts[0].text).meeting_title }}` | `[YYYY-MM-DD]회의 제목` 형태로 결합 |
+| 회의 날짜 (Date) | `={{ JSON.parse($json.content.parts[0].text).meeting_date }}` | JSON에서 `meeting_date` 추출 |
+| 회의 주제 (Title 속성) | `={{ JSON.parse($json.content.parts[0].text).meeting_title }}` | JSON에서 `meeting_title` 추출 |
+| 한줄 요약 (Rich text) | `={{ JSON.parse($json.content.parts[0].text).meeting_oneline }}` | JSON에서 `meeting_oneline` 추출 |
+| 파일 이름 (Files) | `={{ $('meeting_transcript_text_file').first().binary.data.fileName }}` | 텍스트 파일명 참조 |
+| 파일 URL (Files) | `={{ $('Upload file').item.json.webContentLink }}` | Google Drive 직접 다운로드 링크 |
+| 본문 블록 (Block) | `={{ JSON.parse($json.content.parts[0].text).meeting_summary }}` | 마크다운 상세 요약 |
 
-**`.parseJson()`의 역할:** Gemini가 JSON 형식 문자열로 반환한 텍스트를 실제 객체로 파싱합니다. 이후 `.meeting_title` 같은 키 접근이 가능해집니다.
+#### 실수하기 쉬운 포인트
+
+- **앞에 `=` 빼먹지 않기**: n8n 입력란에서 표현식 모드로 동작하려면 값 맨 앞에 `=`가 있어야 합니다 (페이지 제목 표현식처럼 `=` 뒤에 일반 텍스트 + `{{ }}` 표현식을 섞을 수 있음).
+- **중괄호는 두 개씩**: `{{ }}` 표현식 안에 다시 `{}`가 들어가도 그대로 두면 됩니다 (`JSON.parse(...)` 결과 객체 자체를 출력하는 게 아니라 `.key`로 꺼내 쓰기 때문).
+- **속성 키 형식**: `회의 날짜|date`처럼 `이름|타입` 형태로 적습니다. Notion DB의 실제 속성명과 정확히 일치해야 합니다.
 
 ---
 
