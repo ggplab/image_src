@@ -260,7 +260,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "TXxUKS5yUfyzEmms",
-          "name": "[지지플랩]n8n실습용"
+          "name": "Google Gemini account"
         }
       }
     },
@@ -320,7 +320,7 @@
     },
     {
       "parameters": {
-        "sendTo": "=snowgot@gmail.com",
+        "sendTo": "=your-email@example.com",
         "subject": "={{ $json.subject }}",
         "message": "={{ $json.html }}",
         "options": {}
@@ -337,7 +337,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "Ly5kxK8IPxftRoDg",
-          "name": "[지지플랩]임정_snowgot"
+          "name": "Gmail account"
         }
       }
     },

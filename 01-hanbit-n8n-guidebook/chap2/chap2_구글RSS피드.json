@@ -139,7 +139,7 @@
     },
     {
       "parameters": {
-        "sendTo": "",
+        "sendTo": "your-email@example.com",
         "subject": "={{ $today.format(\"DD\") }}의 뉴스",
         "emailType": "text",
         "message": "=오늘의 n8n뉴스\n\n{{ $json.data.map(item => `${item.title}\\n${item.link}`).join('\\n\\n') }}",
@@ -157,7 +157,7 @@
       "credentials": {
         "gmailOAuth2": {
           "id": "Ly5kxK8IPxftRoDg",
-          "name": "[지지플랩]임정_snowgot"
+          "name": "Gmail account"
         }
       }
     }

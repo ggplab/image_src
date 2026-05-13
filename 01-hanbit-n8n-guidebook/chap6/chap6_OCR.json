@@ -136,7 +136,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "TXxUKS5yUfyzEmms",
-          "name": "[지지플랩]n8n실습용"
+          "name": "Google Gemini account"
         }
       }
     },
@@ -158,17 +158,17 @@
         "operation": "append",
         "documentId": {
           "__rl": true,
-          "value": "1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY",
+          "value": "YOUR_SHEET_ID",
           "mode": "list",
           "cachedResultName": "업스테이지_OCR",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": "gid=0",
           "mode": "list",
           "cachedResultName": "시트1",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1PQT09Lxrw39NaCRjg4eWcoc0n41cxq8pU-NDRFUiDpY/edit#gid=0"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=0"
         },
         "columns": {
           "mappingMode": "defineBelow",

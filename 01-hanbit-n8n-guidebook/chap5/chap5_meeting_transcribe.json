@@ -192,10 +192,10 @@
         },
         "folderId": {
           "__rl": true,
-          "value": "1YQ1kqa2D6-_uZUPFcF2qY-PqRUWiFwar",
+          "value": "YOUR_FOLDER_ID",
           "mode": "list",
           "cachedResultName": "meeting",
-          "cachedResultUrl": "https://drive.google.com/drive/folders/1YQ1kqa2D6-_uZUPFcF2qY-PqRUWiFwar"
+          "cachedResultUrl": "https://drive.google.com/drive/folders/YOUR_FOLDER_ID"
         },
         "options": {}
       },
@@ -210,7 +210,7 @@
       "credentials": {
         "googleDriveOAuth2Api": {
           "id": "F6EYYd6RwVKZJH86",
-          "name": "Google Drive account(DP)"
+          "name": "Google Drive account"
         }
       }
     },
@@ -235,10 +235,10 @@
         "resource": "databasePage",
         "databaseId": {
           "__rl": true,
-          "value": "30c13bcf-ac5a-800f-9a68-c3799070532f",
+          "value": "YOUR_NOTION_DATABASE_ID",
           "mode": "list",
-          "cachedResultName": "테스트 회의록",
-          "cachedResultUrl": "https://www.notion.so/30c13bcfac5a800f9a68c3799070532f"
+          "cachedResultName": "회의록 DB",
+          "cachedResultUrl": "https://www.notion.so/YOUR_NOTION_DATABASE_ID"
         },
         "title": "=[{{ $now.setZone('Asia/Seoul').toFormat('yyyy-MM-dd') }}]{{ JSON.parse($json.content.parts[0].text).meeting_title }}",
         "propertiesUi": {

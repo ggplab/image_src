@@ -46,17 +46,17 @@
       "parameters": {
         "documentId": {
           "__rl": true,
-          "value": "12ekouJbf_gDoGqtfNHbwSTkQzveCCNGYd47KZprL_0E",
+          "value": "YOUR_SHEET_ID",
           "mode": "list",
           "cachedResultName": "kamis",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12ekouJbf_gDoGqtfNHbwSTkQzveCCNGYd47KZprL_0E/edit?usp=drivesdk"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit?usp=drivesdk"
         },
         "sheetName": {
           "__rl": true,
           "value": 957982738,
           "mode": "list",
           "cachedResultName": "품목코드",
-          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/12ekouJbf_gDoGqtfNHbwSTkQzveCCNGYd47KZprL_0E/edit#gid=957982738"
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_SHEET_ID/edit#gid=957982738"
         },
         "options": {}
       },
@@ -71,7 +71,7 @@
       "credentials": {
         "googleSheetsOAuth2Api": {
           "id": "qgcTaEbHs4iKKK4h",
-          "name": "[데이터팝콘]임정"
+          "name": "Google Sheets account"
         }
       }
     },
@@ -90,7 +90,7 @@
       "credentials": {
         "googlePalmApi": {
           "id": "txHyfbmXb0FyHr3N",
-          "name": "[지지플랩]임정_데이터팝콘통합"
+          "name": "Google Gemini account"
         }
       }
     },
@@ -141,11 +141,11 @@
             },
             {
               "name": "p_cert_key",
-              "value": "1318c60d-59ae-49a9-889e-adf4a77dcbed"
+              "value": "YOUR_KAMIS_CERT_KEY"
             },
             {
               "name": "p_cert_id",
-              "value": "4809"
+              "value": "YOUR_KAMIS_CERT_ID"
             },
             {
               "name": "p_returntype",
@@ -171,10 +171,10 @@
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "NLPok8rS5uwhq3yi",
+          "value": "YOUR_SUBWORKFLOW_ID",
           "mode": "list",
-          "cachedResultUrl": "/workflow/NLPok8rS5uwhq3yi",
-          "cachedResultName": "BOOK — 장바구니(정아님이겁니다)"
+          "cachedResultUrl": "/workflow/YOUR_SUBWORKFLOW_ID",
+          "cachedResultName": "장바구니"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
