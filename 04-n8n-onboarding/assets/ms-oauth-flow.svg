@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 470" font-family="Pretendard, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif" role="img" aria-label="n8n과 Microsoft 365 OAuth2 연결 흐름">
+  <defs>
+    <marker id="arrow" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowGray" markerWidth="12" markerHeight="12" refX="8" refY="4" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L9,4 L0,8 Z" fill="#a39e98"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="980" height="470" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="490" y="42" text-anchor="middle" font-size="23" font-weight="700" fill="#31302e">n8n과 Microsoft 365 연결 (OAuth2)</text>
+  <text x="490" y="70" text-anchor="middle" font-size="14" fill="#615d59">앱 등록은 n8n과 Microsoft 사이에 신뢰관계를 만드는 단계입니다</text>
+
+  <!-- Node 1: n8n -->
+  <rect x="30" y="120" width="200" height="120" rx="14" fill="#f6f5f4" stroke="#dddddd" stroke-width="1.5"/>
+  <text x="130" y="154" text-anchor="middle" font-size="17" font-weight="700" fill="#2563EB">n8n</text>
+  <text x="130" y="182" text-anchor="middle" font-size="13" fill="#31302e">Credential 생성</text>
+  <text x="130" y="204" text-anchor="middle" font-size="12.5" fill="#615d59">Client ID · Secret 입력</text>
+
+  <!-- Node 2: Microsoft Entra (highlight) -->
+  <rect x="270" y="120" width="200" height="120" rx="14" fill="#ffffff" stroke="#2563EB" stroke-width="2.5"/>
+  <text x="370" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#1D4ED8">Microsoft Entra</text>
+  <text x="370" y="172" text-anchor="middle" font-size="13" font-weight="700" fill="#31302e">등록된 앱</text>
+  <text x="370" y="194" text-anchor="middle" font-size="12" fill="#615d59">Client ID · Secret</text>
+  <text x="370" y="212" text-anchor="middle" font-size="12" fill="#615d59">리디렉트 URL · 권한(스코프)</text>
+
+  <!-- Node 3: User -->
+  <rect x="510" y="120" width="200" height="120" rx="14" fill="#f6f5f4" stroke="#dddddd" stroke-width="1.5"/>
+  <text x="610" y="154" text-anchor="middle" font-size="17" font-weight="700" fill="#2563EB">사용자</text>
+  <text x="610" y="182" text-anchor="middle" font-size="13" fill="#31302e">로그인 · 동의</text>
+  <text x="610" y="204" text-anchor="middle" font-size="12" fill="#615d59">Sign in with Microsoft</text>
+
+  <!-- Node 4: Microsoft Graph -->
+  <rect x="750" y="120" width="200" height="120" rx="14" fill="#f6f5f4" stroke="#dddddd" stroke-width="1.5"/>
+  <text x="850" y="150" text-anchor="middle" font-size="16" font-weight="700" fill="#2563EB">Microsoft Graph</text>
+  <text x="850" y="178" text-anchor="middle" font-size="12.5" fill="#31302e">Outlook · Teams</text>
+  <text x="850" y="198" text-anchor="middle" font-size="12.5" fill="#31302e">OneDrive</text>
+
+  <!-- Forward arrows -->
+  <line x1="232" y1="180" x2="266" y2="180" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="472" y1="180" x2="506" y2="180" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+  <line x1="712" y1="180" x2="746" y2="180" stroke="#2563EB" stroke-width="2" marker-end="url(#arrow)"/>
+
+  <!-- Step labels above arrows -->
+  <text x="249" y="166" text-anchor="middle" font-size="11" fill="#615d59">①</text>
+  <text x="489" y="166" text-anchor="middle" font-size="11" fill="#615d59">②</text>
+  <text x="729" y="166" text-anchor="middle" font-size="11" fill="#615d59">③</text>
+
+  <!-- Step captions below nodes -->
+  <text x="249" y="262" text-anchor="middle" font-size="11.5" fill="#615d59">등록된 앱으로</text>
+  <text x="249" y="278" text-anchor="middle" font-size="11.5" fill="#615d59">로그인 시작</text>
+  <text x="489" y="262" text-anchor="middle" font-size="11.5" fill="#615d59">사용자 로그인</text>
+  <text x="729" y="262" text-anchor="middle" font-size="11.5" fill="#615d59">동의 후 데이터 접근</text>
+
+  <!-- Return arrow (tokens + data back to n8n) -->
+  <polyline points="850,240 850,330 130,330 130,242" fill="none" stroke="#a39e98" stroke-width="2" stroke-dasharray="6 5" marker-end="url(#arrowGray)"/>
+  <text x="490" y="324" text-anchor="middle" font-size="12.5" fill="#615d59">④ 액세스 토큰과 데이터가 n8n으로 돌아옴 (offline_access 가 있으면 자동 갱신)</text>
+
+  <!-- Footnote -->
+  <text x="490" y="392" text-anchor="middle" font-size="12" fill="#a39e98">한 번 등록한 앱(Client ID · Secret)으로 Outlook · Teams · OneDrive 등 여러 노드의 Credential을 함께 만들 수 있습니다.</text>
+  <text x="490" y="430" text-anchor="middle" font-size="10.5" fill="#a39e98">기준일 2026-06-19 · 지지플랩</text>
+</svg>

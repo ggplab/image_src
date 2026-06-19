@@ -52,7 +52,16 @@
 |------|------|------|
 | 데이터 파이프라인 치트시트 | 핵심 노드 한눈에 정리 (한/영 PDF, PNG) | [바로가기](./03-cheatsheet-for-datapipeline/) |
 
+---
 
+## 온보딩 가이드 / Onboarding
+
+n8n을 처음 쓰는 분을 위한 연결·설정 가이드 (코딩 없이 화면 클릭만으로).
+
+| 자료 / Resource | 설명 / Description | 링크 / Link |
+|------|------|------|
+| Microsoft 365 연결하기 | Outlook · Teams · OneDrive를 n8n에 연결 (Entra 앱 등록 ~ 검증) | [바로가기](./04-n8n-onboarding/01-microsoft-365-setup.md) |
+| 온보딩 가이드 전체 | 커뮤니티 노드 설치 · credential/API 기초 포함 | [바로가기](./04-n8n-onboarding/) |
 
 ---
 
