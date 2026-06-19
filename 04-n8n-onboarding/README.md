@@ -9,8 +9,8 @@ n8n을 처음 쓰는 분을 위한 연결·설정 가이드입니다. 외부 서
 | # | 문서 | 내용 | 상태 |
 |---|---|---|---|
 | 01 | [Microsoft 365 연결하기](01-microsoft-365-setup.md) | Outlook · Teams · OneDrive를 n8n에 연결 (Entra 앱 등록부터 검증까지) | ✅ |
-| 02 | 커뮤니티 노드 설치하기 | n8n에 없는 노드(예: Upstage)를 설치하고 확인하기 | 작성 예정 |
-| 03 | credential과 API 키 기초 | "자격증명"이 뭔지, API 키는 어디서 받는지, OAuth는 왜 필요한지 | 작성 예정 |
+| 02 | [커뮤니티 노드 설치하기](02-community-node-install.md) | n8n에 없는 노드(예: Upstage)를 설치하고 확인하기 | ✅ |
+| 03 | [credential과 API 키 기초](03-credential-api-basics.md) | "자격증명"이 뭔지, API 키는 어디서 받는지, OAuth는 왜 필요한지 | ✅ |
 
 ## 읽는 순서 추천
 
