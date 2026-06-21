@@ -138,7 +138,7 @@ OAuth 로그인을 마치면 Microsoft가 사용자를 다시 n8n으로 돌려�
 | 노드 | Microsoft Graph 위임 권한(예) | 비고 |
 |---|---|---|
 | Outlook | `User.Read`, `Mail.ReadWrite`, `Mail.Send`, `offline_access` | 공유 사서함을 쓰려면 n8n 자격증명에서 "Use Shared Inbox" 켜고 대상 사용자 UPN 입력 |
-| OneDrive | `User.Read`, `Files.ReadWrite.All`, `offline_access` | Excel 노드도 OneDrive 파일 권한을 함께 씀 |
+| OneDrive | `User.Read`, `Files.ReadWrite.All`, `offline_access` | Excel 노드도 OneDrive 파일 권한을 함께 씀. **단 Excel 노드는 개인 계정 미지원 → §7-1** |
 | Teams | `User.Read`, `Group.ReadWrite.All`, `Channel.ReadBasic.All`, `ChannelMessage.Send`, `offline_access` | 관리자 동의가 필요한 경우가 많음 |
 
 > `offline_access`는 "토큰 자동 갱신"에 필요합니다. 빠지면 일정 시간 뒤 연결이 끊겨 다시 로그인해야 합니다.
@@ -170,6 +170,29 @@ OAuth 로그인을 마치면 Microsoft가 사용자를 다시 n8n으로 돌려�
 | 처음엔 되다가 하루 뒤 끊김 | `offline_access` 누락 또는 클라이언트 비밀 만료 | 스코프에 `offline_access` 추가, 만료된 비밀은 §3-3으로 새로 발급 후 n8n에 갱신 |
 | 노드 실행 시 "권한 부족(Insufficient privileges)" | 동작에 필요한 Graph 권한이 앱에 없음 | 오류에 나온 권한 이름을 Entra API 권한에 추가하고 관리자 동의 |
 | 회사망에서만 로그인 실패 | 방화벽이 Microsoft 로그인 도메인을 차단 | `login.microsoftonline.com`, `graph.microsoft.com` 허용을 IT에 요청 |
+| **Excel 노드**에서 Workbook 목록이 안 뜸 · "Could not load list — **Error Calling Substrate Search**"(500) · By ID로 넣으면 "**Invalid WorkbookID**"·400 | **개인 Microsoft 계정(OneDrive Consumer)은 Excel REST API 자체가 미지원** — 권한·스코프·Entra 문제가 **아님** | 회사(work/school) M365 계정으로 전환. 개인 계정을 유지해야 하면 §7-1 우회법 |
+
+---
+
+### 7-1. 개인 계정 + Excel 노드: 설정으로 못 고치는 한계
+
+Outlook 메일 발송은 잘 되는데 **Excel 노드만** 워크북 목록을 못 불러오고 위 에러가 난다면, 십중팔구 그 계정이 **개인 Microsoft 계정**(로그인·OneDrive 주소가 `onedrive.live.com/personal/...` 또는 outlook·hotmail·live 계정)입니다.
+
+이건 권한을 더 주거나 Entra 스코프를 손봐서 고칠 수 있는 문제가 **아닙니다.** Microsoft 공식 문서의 명시적 한계입니다.
+
+> "Support for workbooks stored in **OneDrive Consumer platform is still not available**. At this time, only the files stored in **business platform** are supported by **Excel REST APIs**."
+> — 개인 OneDrive에 저장된 워크북은 아직 지원하지 않으며, 현재는 비즈니스 플랫폼 파일만 Excel REST API가 지원합니다.
+
+n8n의 Microsoft Excel 노드는 내부적으로 이 Excel REST API(Graph의 `/workbook/...` 엔드포인트)를 호출하므로, 개인 계정 파일에는 응답이 오지 않습니다. 드롭다운 검색 시 `Error Calling Substrate Search`(500), By ID 입력 시 `Invalid WorkbookID`/400 은 **모두 같은 원인(개인 계정 미지원)의 다른 증상**입니다.
+
+**판별 포인트** — 같은 자격증명으로 Outlook 발송이 되면 OAuth·권한·토큰은 정상입니다. 권한 문제였다면 메일도 막혔어야 합니다. 즉 Excel만 막히면 권한이 아니라 계정 종류를 의심하세요.
+
+**해결 (둘 중 하나)**
+
+1. **회사(work/school) M365 계정 사용** *(권장)* — 비즈니스 OneDrive/SharePoint에 .xlsx를 두면 노드의 드롭다운·By ID가 정상 동작합니다. 시연·운영 안정성이 중요하면 이 경로로 갑니다.
+2. **개인 계정 유지 시 — Excel 노드를 쓰지 않고 우회** — `Microsoft OneDrive` 노드로 .xlsx 파일을 **다운로드** → `Extract from File`(Spreadsheet) 노드로 **파싱**해 행 데이터를 얻습니다. 워크북 REST API를 전혀 거치지 않아 개인 계정에서도 동작합니다. 단, 셀에 다시 쓰기(append/update)는 이 방식으로 번거로워집니다. (`HTTP Request`로 Graph `/workbook/`을 직접 호출하는 우회는 **소용없습니다** — 막히는 엔드포인트가 바로 그것이기 때문입니다.)
+
+> 출처: [Excel365 not working with personal account — n8n Community](https://community.n8n.io/t/excel365-not-working-with-personal-account/85040) · [Anyone Using OneDrive Personal + Excel with n8n?](https://community.n8n.io/t/anyone-using-onedrive-personal-excel-with-n8n-files-not-listing-properly/130734) · 확인일 2026-06-21
 
 ---
 
