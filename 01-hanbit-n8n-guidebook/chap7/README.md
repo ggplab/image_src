@@ -35,22 +35,20 @@ Schedule Trigger ──┤                                                     �
 
 
 ## cURL - 7.2.2 [Task] HTTP Request - 코스피 
-```curl -X GET
-“https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/
-getStockPriceInfo?serviceKey=본인의_인증키&numOfRows=10&pageNo=1&resultType=-
-json&mrktCls=KOSPI"
+```
+curl -X GET "https://apis.data.go.kr/1160100/service/GetStockSecuritiesInfoService/getStockPriceInfo?serviceKey=본인의_인증키&numOfRows=10&pageNo=1&resultType=json&mrktCls=KOSPI"
 ```
 
 ## Expression - 7.4.3 [Task] Edit 노드로 핵심 정보 추출하기
 
 ### 05
 ```
-{{ $(‘Merge’).all().map(i => i.json).find(s => s.종목명 === ‘코스피’) }}
+{{ $('Merge').all().map(i => i.json).find(s => s.종목명 === '코스피') }}
 ```
 
 ### 06
 ```
-{{ $(‘Merge’).all().map(i => i.json).filter(s => s.종목명 !== ‘코스피’) }}
+{{ $('Merge').all().map(i => i.json).filter(s => s.종목명 !== '코스피') }}
 ```
 
 ## 프롬프트
